@@ -1,5 +1,5 @@
 /*\
-title: $:/macros/skeeve/dateTime.js
+title: $:/macros/skeeve-afeldspar/dateTime.js
 type: application/javascript
 module-type: macro
 
@@ -15,6 +15,10 @@ getMinute => getMinutes
 setMinute => setMinutes
 
 afeldspar - 2015/10/18
+----
+NOTE: It has been modified even more to accept parameters as variables rather than having to receive them from the macro call.
+----
+Further altered to try and compensate for the timezone offset.
 ----
 
 <<dateTime format date add>>
@@ -62,6 +66,22 @@ exports.params = [
 Run the macro
 */
 exports.run = function(format, ts, add) {
+    /* This section added by afeldspar */
+	var format = this.getVariable("format") ;
+    var ts = this.getVariable("ts") ;
+    var add = this.getVariable("add") ;
+    
+    if (format == undefined) {
+        format = "";
+    }    
+    if (ts == undefined) {
+        ts = "";
+    }    
+    if (add == undefined) {
+        add = "";
+    }
+    /* end of section added by afeldspar */
+
 	if(!ts) {
 		ts = new Date;
 	}
@@ -86,6 +106,9 @@ exports.run = function(format, ts, add) {
 			default: break;
 		}
 	}
+    /* This section added by afeldspar */
+    ts.setMinutes(ts.getMinutes() + ts.getTimezoneOffset());
+    /* end of section added by afeldspar */
 	if(!format)
 		format = "YYYY-0MM-0DD 0hh:0mm:0ss";
 	return $tw.utils.formatDateString(ts, format); 
