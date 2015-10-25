@@ -1,0 +1,40 @@
+created: 20151024143436511
+modified: 20151025001358914
+tags: 
+title: IncrementButtonsDisplayTemplate
+
+<!-- We store these three variables dereferenced from currentTiddler before its value changes. -->
+<$set name=sourcetid value=<<currentTiddler>> >
+<$set name=optdate value={{!!optimaldate}} >
+<$set name=duedate value={{!!duedate}} >
+
+<$list filter="[[1D1D]] [list[]has[optimal-inc]has[due-inc]]">
+
+<$button>
+<$vars format="YYYY0MM0DD0hh0mm0ss000" ts=<<optdate>> add={{!!optimal-inc}} >
+<$action-setfield 
+$tiddler=<<sourcetid>> 
+$field=optimaldate
+$value=<<varModDateTime>>
+/>
+</$vars>
+
+<$vars format="YYYY0MM0DD0hh0mm0ss000" ts=<<duedate>> add={{!!due-inc}} >
+<$action-setfield 
+$tiddler=<<sourcetid>> 
+$field=duedate
+$value=<<varModDateTime>>
+/>
+</$vars>
+
+<!-- This is the text of the button, here. -->
+<<currentTiddler>>
+
+
+</$button>
+
+</$list>
+
+</$set>
+</$set>
+</$set>
